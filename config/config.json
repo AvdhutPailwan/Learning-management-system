@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Ap@7321",
+    "database": "learning_management_system_dev",
+    "host": "postgres",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Ap@7321",
+    "database": "learning_management_system_test",
+    "host": "postgres",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}
