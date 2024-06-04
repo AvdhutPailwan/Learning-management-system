@@ -3,14 +3,14 @@
     "username": "postgres",
     "password": "Ap@7321",
     "database": "learning_management_system_dev",
-    "host": "postgres",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "Ap@7321",
     "database": "learning_management_system_test",
-    "host": "postgres",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "production": {

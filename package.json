@@ -4,8 +4,10 @@
   "description": "A learning management system where educators can launch courses and students can enroll into it",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "prepare": "husky"
+    "db:create:test":"NODE_ENV=test npx sequelize-cli db:create",
+    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [
