@@ -23,9 +23,9 @@
 
 ### Educator
 
-- [ ] create course
-- [ ] edit course
-- [ ] delete course
+- [x] create course
+- [x] edit course
+- [x] delete course
 - [ ] create chapter
 - [ ] edit chapter
 - [ ] delete chapter

@@ -1,12 +1,12 @@
 const express = require(`express`);
-const { getAllCourses } = require(`../controllers/courses.controllers.js`);
+const { createACourse, updateACourse, deleteACourse } = require(`../controllers/courses.controllers.js`);
 
 const coursesRouter = express.Router();
 
-coursesRouter.get(`/:studentId`, getAllCourses);
-coursesRouter.post(`/create/:educatorId`, () => {});
-coursesRouter.put(`/edit/:courseId`, () => {});
-coursesRouter.delete(`/delete/:courseId`, () => {});
+coursesRouter.get(`/courses/:studentId`, () => {});
+coursesRouter.post(`/create/:educatorId`, createACourse);
+coursesRouter.put(`/edit/:courseId`, updateACourse);
+coursesRouter.delete(`/delete/:courseId`, deleteACourse);
 coursesRouter.get(`/:courseId`, () => {});
 
 module.exports = coursesRouter;

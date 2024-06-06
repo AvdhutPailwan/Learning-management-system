@@ -2,7 +2,8 @@ const express = require(`express`);
 
 const userRouter = express.Router();
 
-userRouter.get(`/signin`, () => {});
-userRouter.get(`/signup`, () => {});
+userRouter.post(`/signin`, () => {});
+userRouter.post(`/signup`, () => {});
+userRouter.post(`/changepassword`, () => {});
 
 module.exports = userRouter;
