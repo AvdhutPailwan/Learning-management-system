@@ -9,12 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "chapterId"
       })
 
-      Pages.belongsToMany(models.Users, { through: "Completed" })
+      Pages.belongsToMany(models.Users, { through: "Completeds",foreignKey: "pageId" })
     }
   }
   Pages.init({
     title: DataTypes.STRING,
-    content: DataTypes.STRING
+    content: DataTypes.STRING,
+    chapterId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Pages',

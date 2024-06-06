@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Courses.belongsToMany(models.Users, {
-        through: "Enrollments"
+        through: "Enrollments",
+        foreignKey: "courseId",
       })
 
       Courses.hasMany(models.Chapters, {
@@ -20,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Courses.init({
     title: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    educatorId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Courses',
