@@ -21,6 +21,10 @@ module.exports = {
       role: {
         type: Sequelize.STRING,
         defaultValue: "student",
+        allowNull: false,
+        validate: {
+          isIn: [['student', 'educator']]
+        }
       },
       createdAt: {
         allowNull: false,

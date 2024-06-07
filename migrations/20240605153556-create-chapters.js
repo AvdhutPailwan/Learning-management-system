@@ -18,7 +18,8 @@ module.exports = {
         references: {
           model: 'Courses',
           key: "id",
-        }
+        },
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

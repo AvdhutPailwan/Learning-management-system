@@ -26,12 +26,12 @@
 - [x] create course
 - [x] edit course
 - [x] delete course
-- [ ] create chapter
-- [ ] edit chapter
-- [ ] delete chapter
-- [ ] create page
-- [ ] edit page
-- [ ] delete page
+- [x] create chapter
+- [x] edit chapter
+- [x] delete chapter
+- [x] create page
+- [x] edit page
+- [x] delete page
 - [ ] view reports
 
 ### Authorised everyone

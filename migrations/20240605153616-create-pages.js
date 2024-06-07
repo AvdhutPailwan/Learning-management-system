@@ -22,7 +22,8 @@ module.exports = {
         references: {
           model: "Chapters",
           key: "id",
-        }
+        },
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

@@ -8,14 +8,16 @@ module.exports = {
         references: {
           model: "Users",
           key: 'id'
-        }
+        },
+        primaryKey: true
       },
       courseId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Courses",
           key: 'id',
-        }
+        },
+        primaryKey: true
       },
       createdAt: {
         allowNull: false,

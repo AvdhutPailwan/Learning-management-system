@@ -13,6 +13,26 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "chapterId"
       })
     }
+
+    static async createAChapter(title, courseId){
+      return await this.create({title, courseId});
+    }
+
+    static async updateAChapter(title, chapterId){
+      return await this.update({title}, {
+        where: {
+          id: chapterId,
+        }
+      })
+    }
+
+    static async deleteAChapter(chapterId){
+      return await this.destroy({
+        where: {
+          id: chapterId
+        }
+      })
+    }
   }
   Chapters.init({
     title: DataTypes.STRING,
