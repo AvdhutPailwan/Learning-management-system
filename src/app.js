@@ -1,5 +1,5 @@
 const express = require(`express`);
-const cookieParser = require("cookie-parser");
+const cookieParser = require(`cookie-parser`);
 
 /**
  * Todo: sign in and sign up
