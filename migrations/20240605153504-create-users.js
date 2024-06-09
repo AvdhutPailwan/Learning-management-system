@@ -13,6 +13,8 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
+        index: true,
+        trim: true,
       },
       password: {
         type: Sequelize.STRING,
@@ -25,6 +27,9 @@ module.exports = {
         validate: {
           isIn: [['student', 'educator']]
         }
+      },
+      refreshToken: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
