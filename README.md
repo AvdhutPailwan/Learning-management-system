@@ -18,8 +18,9 @@
 
 ### authentication and authorisation
 
-- [ ] sign in
-- [ ] sign up
+- [x] sign in
+- [x] sign up
+- [x] sign out
 
 ### Educator
 
@@ -46,7 +47,7 @@
 - [ ] mark as completed a page
 - [ ] course progress
 - [ ] enroll in a course
-- [ ] change password
+- [x] change password
 
 ### Optional features
 

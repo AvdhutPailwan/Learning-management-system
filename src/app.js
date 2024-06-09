@@ -2,11 +2,6 @@ const express = require(`express`);
 const cookieParser = require(`cookie-parser`);
 
 /**
- * Todo: sign in and sign up
- * Todo: store hashed passwords
- * Todo: add auth middleware to authenticate User
- * Todo: add a middleware to authorise the educator route to only educator
- * Todo: always verify the role of the user before doing any operation on educators routes
  * Todo: add a csrf security
  * Todo: Disable X-Powered-By header for your Express app[:20] (consider using Helmet middleware)
  */
@@ -18,6 +13,7 @@ const chaptersRouter = require(`./routes/chapters.routes`);
 const pageRouter = require(`./routes/pages.routes`);
 const completedRouter = require(`./routes/completed.routes`);
 const enrollmentRouter = require(`./routes/enrollments.routes`);
+const { verifyJwt } = require(`./middlewares/auth.middleware`);
 
 const app = express();
 
@@ -30,6 +26,8 @@ app.get(`/`, (req, res) => {
 });
 
 app.use(`/user`, userRouter);
+
+app.use(verifyJwt);
 app.use(`/course`, coursesRouter);
 app.use(`/chapter`, chaptersRouter);
 app.use(`/page`, pageRouter);
