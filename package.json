@@ -8,7 +8,7 @@
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "husky",
-    "dev": "nodemon -e ejs,js"
+    "dev": "nodemon -e js"
   },
   "lint-staged": {
     "*.js": [
@@ -44,8 +44,11 @@
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "path": "^0.12.7",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",

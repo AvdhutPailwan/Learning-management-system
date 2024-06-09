@@ -1,5 +1,5 @@
 const express = require(`express`);
-const { createAChapter, updateAChapter, deleteAChapter } = require(`../controllers/chapters.controller.js`);
+const { createAChapter, updateAChapter, deleteAChapter } = require(`../controllers/chapters.controller`);
 
 const chaptersRouter = express.Router();
 

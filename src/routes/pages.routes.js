@@ -1,5 +1,5 @@
 const express = require(`express`);
-const { createAPage, updateAPage, deleteAPage } = require(`../controllers/pages.controllers.js`);
+const { createAPage, updateAPage, deleteAPage } = require(`../controllers/pages.controllers`);
 
 const pageRouter = express.Router();
 

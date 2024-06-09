@@ -1,4 +1,5 @@
 const express = require(`express`);
+const cookieParser = require("cookie-parser");
 
 /**
  * Todo: sign in and sign up
@@ -11,17 +12,18 @@ const express = require(`express`);
  */
 
 // router import
-const userRouter = require(`./routes/users.routes.js`);
-const coursesRouter = require(`./routes/courses.routes.js`);
-const chaptersRouter = require(`./routes/chapters.routes.js`);
-const pageRouter = require(`./routes/pages.routes.js`);
-const completedRouter = require(`./routes/completed.routes.js`);
-const enrollmentRouter = require(`./routes/enrollments.routes.js`);
+const userRouter = require(`./routes/users.routes`);
+const coursesRouter = require(`./routes/courses.routes`);
+const chaptersRouter = require(`./routes/chapters.routes`);
+const pageRouter = require(`./routes/pages.routes`);
+const completedRouter = require(`./routes/completed.routes`);
+const enrollmentRouter = require(`./routes/enrollments.routes`);
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get(`/`, (req, res) => {
   res.json({ message: `Hello User!!!` });
