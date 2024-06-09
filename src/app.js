@@ -1,9 +1,9 @@
 const express = require(`express`);
 const cookieParser = require(`cookie-parser`);
+const helmet = require(`helmet`);
 
 /**
  * Todo: add a csrf security
- * Todo: Disable X-Powered-By header for your Express app[:20] (consider using Helmet middleware)
  */
 
 // router import
@@ -17,6 +17,7 @@ const { verifyJwt } = require(`./middlewares/auth.middleware`);
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
