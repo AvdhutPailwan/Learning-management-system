@@ -32,10 +32,14 @@ const signUpUser = asyncHandler(async (req, res) => {
    * 7. return response
    */
 
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   console.log(`email: ${email}\npassword: ${password}`);
   if ([email, password].some((field) => field?.trim() === ``)) {
     throw new ApiError(400, `All fields are required.`);
+  }
+
+  if (role !== `student` && role !== `educator`) {
+    throw new ApiError(400, `Invalid Credentials`);
   }
 
   const existingUser = await Users.findOne({
@@ -46,7 +50,7 @@ const signUpUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, `User Already Exists!`);
   }
 
-  const user = await Users.create({ email, password });
+  const user = await Users.create({ email, password, role });
 
   res
     .status(201)
