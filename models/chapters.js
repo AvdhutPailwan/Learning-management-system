@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { Pages } = require(".");
 module.exports = (sequelize, DataTypes) => {
   class Chapters extends Model {
     static associate(models) {
@@ -27,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async deleteAChapter(chapterId){
+      const pages = await Pages.findAll({
+        where: {
+          chapterId
+        }
+      });
+
+      pages.forEach(async page => await Pages.deleteAPage(page.id));
+
       return await this.destroy({
         where: {
           id: chapterId

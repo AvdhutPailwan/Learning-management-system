@@ -1,7 +1,9 @@
 'use strict';
 const {
-  Model
+  Model,
+  where
 } = require('sequelize');
+const { Chapters, Completeds } = require('.');
 module.exports = (sequelize, DataTypes) => {
   class Courses extends Model {
     static associate(models) {
@@ -29,11 +31,27 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
     static async deleteACourse(courseId){
-      return await this.destroy({
+      const chapters = await Chapters.findAll({
+        where: {
+          courseId
+        }
+      });
+
+      chapters.forEach(async chapter => await Chapters.deleteAChapter(chapter.id));
+
+      const completed = await Completeds.destroy({
+        where: {
+          courseId
+        }
+      });
+
+      const course =  await this.destroy({
         where: {
           id: courseId
         }
-      })
+      });
+
+      return (course === 1 && completed === 1);
     }
   }
   Courses.init({

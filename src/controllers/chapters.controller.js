@@ -1,41 +1,57 @@
-const { Chapters } = require(`../../models`);
+const { Chapters, Courses } = require(`../../models`);
+const { ApiError } = require(`../utils/ApiError`);
+const { ApiResponse } = require(`../utils/ApiResponse`);
 
 const createAChapter = async (req, res) => {
-  const { courseId } = req.params;
-  const { title } = req.body;
+  const { title, courseId } = req.body;
   try {
     const chapter = await Chapters.createAChapter(title, courseId);
-    res.status(200).json(chapter);
+    return res.status(200).json(new ApiResponse(
+      200,
+      chapter,
+      `Chapter created successfully`
+    ));
   } catch (error) {
     console.error(error);
-    return res.status(500).json(error);
+    throw new ApiError(500, `Error occured during Creation of Chapter!`);
   }
 };
 
 const updateAChapter = async (req, res) => {
-  const { chapterId } = req.params;
-  const { title } = req.body;
+  const { title, chapterId } = req.body;
 
   try {
     const updated = await Chapters.updateAChapter(title, chapterId);
-    // console.log(updated[0]);
-    return res.status(200).json({ message: ((updated[0] === 1) ? `success` : `fail`) });
+    return res.status(200).json(new ApiResponse(
+      200,
+      {},
+      ((updated[0] === 1) ? `successfully updated the chapter` : `failed to update the chapter`)
+    ));
   } catch (error) {
     console.error(error);
-    return res.status(500).json(error);
+    throw new ApiError(500, `Error occured during updation of Chapter!`);
   }
 };
 
 const deleteAChapter = async (req, res) => {
-  const { chapterId } = req.params;
+  const { chapterId } = req.body;
 
   try {
+    const chapter = await Chapters.findByPk(chapterId);
+    const course = await Courses.findByPk(chapter.courseId);
+    if (course.educatorId !== req.user.id) {
+      throw new ApiError(401, `Unauthorized Request`);
+    }
+
     const deleted = await Chapters.deleteAChapter(chapterId);
-    // console.log(deleted);
-    return res.status(200).json({ message: ((deleted === 1) ? `success` : `fail`) });
+    return res.status(200).json(new ApiResponse(
+      200,
+      {},
+      ((deleted === 1) ? `successfully deleted the Chapter` : `failed to delete the Chapter`)
+    ));
   } catch (error) {
     console.error(error);
-    return res.status(500).json(error);
+    throw new ApiError(500, `Error occured during deletion of Chapter!`);
   }
 };
 

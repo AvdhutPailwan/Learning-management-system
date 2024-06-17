@@ -4,10 +4,10 @@ const { verifyRoleEducator } = require(`../middlewares/educator.middleware`);
 
 const coursesRouter = express.Router();
 
-coursesRouter.get(`/courses/:studentId`, () => {});
-coursesRouter.post(`/create/:educatorId`, verifyRoleEducator, createACourse);
-coursesRouter.put(`/edit/:courseId`, verifyRoleEducator, updateACourse);
-coursesRouter.delete(`/delete/:courseId`, verifyRoleEducator, deleteACourse);
+coursesRouter.get(`/courses`, () => {});
+coursesRouter.post(`/create`, verifyRoleEducator, createACourse);
+coursesRouter.put(`/edit`, verifyRoleEducator, updateACourse);
+coursesRouter.delete(`/delete`, verifyRoleEducator, deleteACourse);
 coursesRouter.get(`/:courseId`, () => {});
 
 module.exports = coursesRouter;

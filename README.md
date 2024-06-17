@@ -26,13 +26,13 @@
 
 - [x] create course
 - [x] edit course
-- [x] delete course
+- [x] delete course - should delete corresponding chapters and pages and enrolled users and completed entries
 - [x] create chapter
 - [x] edit chapter
-- [x] delete chapter
+- [x] delete chapter - should delete chapter and corresponding pages and completed entries
 - [x] create page
 - [x] edit page
-- [x] delete page
+- [x] delete page - delete page and corresponding completed entry
 - [ ] view reports
 
 ### Authorised everyone
