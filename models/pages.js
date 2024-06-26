@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const { Enrollments } = require(`.`);
 module.exports = (sequelize, DataTypes) => {
   class Pages extends Model {
     static associate(models) {
@@ -26,20 +25,17 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async deleteAPage(pageId){
-      const enrollmentDeleted = await Enrollments.destroy({
+      await sequelize.models.Completeds.destroy({
         where: {
           pageId
         }
-      })
-      const pageDeleted = await this.destroy({
+      });
+      return await this.destroy({
         where: {
           id: pageId
         }
-      })
-
-      return (enrollmentDeleted === 1 && pageDeleted === 1);
+      });
     }
-
   }
   Pages.init({
     title: DataTypes.STRING,

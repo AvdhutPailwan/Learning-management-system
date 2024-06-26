@@ -52,7 +52,6 @@ const deleteACourse = asyncHandler(async (req, res) => {
     }
 
     const deleted = await Courses.deleteACourse(courseId);
-    console.log(deleted);
     return res.status(200).json(new ApiResponse(
       200,
       {},

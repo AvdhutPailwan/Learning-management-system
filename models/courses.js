@@ -3,7 +3,6 @@ const {
   Model,
   where
 } = require('sequelize');
-const { Chapters, Completeds } = require('.');
 module.exports = (sequelize, DataTypes) => {
   class Courses extends Model {
     static associate(models) {
@@ -31,27 +30,27 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
     static async deleteACourse(courseId){
-      const chapters = await Chapters.findAll({
+      const chapters = await sequelize.models.Chapters.findAll({
         where: {
           courseId
         }
       });
 
-      chapters.forEach(async chapter => await Chapters.deleteAChapter(chapter.id));
+      for(const element of chapters){
+        await sequelize.models.Chapters.deleteAChapter(element.id);
+      }
 
-      const completed = await Completeds.destroy({
+      await sequelize.models.Enrollments.destroy({
         where: {
           courseId
         }
-      });
+      })
 
-      const course =  await this.destroy({
+      return await this.destroy({
         where: {
           id: courseId
         }
       });
-
-      return (course === 1 && completed === 1);
     }
   }
   Courses.init({
