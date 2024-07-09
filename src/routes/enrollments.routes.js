@@ -1,7 +1,8 @@
 const express = require(`express`);
+const { enrollInACourse } = require("../controllers/enrollments.controllers");
 
 const enrollmentRouter = express.Router();
 
-enrollmentRouter.post(`/:studentId/:courseId`, () => {});
+enrollmentRouter.post(`/:courseId`, enrollInACourse);
 
 module.exports = enrollmentRouter;

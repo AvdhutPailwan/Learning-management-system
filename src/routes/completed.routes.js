@@ -1,7 +1,8 @@
 const express = require(`express`);
+const { markAsCompleted } = require("../controllers/completed.controllers");
 
 const completedRouter = express.Router();
 
-completedRouter.post(`/:studentId/:chapterId`, () => {});
+completedRouter.post(`/:pageId`, markAsCompleted);
 
 module.exports = completedRouter;

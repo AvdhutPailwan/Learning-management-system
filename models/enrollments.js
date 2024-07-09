@@ -14,6 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "courseId",
       })
     }
+
+    static enrollInACourse(studentId, courseId){
+      return this.findOrCreate(
+        {
+          where: {
+            studentId, 
+            courseId
+          }
+        }
+      );
+    }
   }
   Enrollments.init({
     studentId: DataTypes.INTEGER,

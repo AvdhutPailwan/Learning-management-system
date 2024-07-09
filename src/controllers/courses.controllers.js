@@ -1,8 +1,38 @@
-const { Courses, Enrollments } = require(`../../models`);
+const { where } = require("sequelize");
+const { Courses, Enrollments, Chapters } = require(`../../models`);
 const { ApiError } = require(`../utils/ApiError`);
 const { ApiResponse } = require(`../utils/ApiResponse`);
 const { asyncHandler } = require(`../utils/asyncHandler`);
 
+
+// ---------------------
+
+async function chaptersOfTheCourse(courseId){
+  try {
+    const chapters = await Chapters.findAll({
+      where: {
+        courseId
+      }
+    });
+    return chapters;
+  } catch (error) {
+    throw new ApiError(500, `error while calulating chapters`);
+  }
+}
+async function pagesOfTheChapter(chapterId){
+  try {
+    const pages = await Pages.findAll({
+      where: {
+        chapterId
+      }
+    });
+    return pages;
+  } catch (error) {
+    throw new ApiError(500, `error while calulating pages`);
+  }
+}
+
+// --------------------
 const createACourse = asyncHandler(async (req, res) => {
   const educatorId = req.user.id;
   const { title, description } = req.body;
@@ -74,22 +104,55 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
    *    3. filter the completed pages
    *    4. take the count and calculate the percentage of progress
    */
-  const { id, role } = req.user;
+  const { id } = req.user;
   try {
     const courses = await Courses.findAll();
-    const coursesEnrolledByUser = await Enrollments.findAll({
+    let coursesEnrolledByUser = await Enrollments.findAll({
       where: {
         studentId: id
       }
-    }).map(entry => entry.studentId);
+    });
 
-    const enrolledCourses = courses.filter(course => coursesEnrolledByUser.includes(course.courseId));
+    let enrolledCourses = [];
+    if(coursesEnrolledByUser.length > 0) {
+      coursesEnrolledByUser = coursesEnrolledByUser.map(entry => entry.courseId);
+      enrolledCourses = courses.filter(course => coursesEnrolledByUser.includes(course.id));
+      
+      let completed = await Completeds.findAll({
+        where: {
+          studentId: req.user.id
+        }
+      });
+
+      completed = completed.map(item => item.pageId);
+
+      for (const element of enrolledCourses){
+        // all chapters of the enrolled course
+        const chapters = await chaptersOfTheCourse(element.id);
+        let totalPages = 0;
+        let completedPages = 0;
+
+        for(let chapter of chapters){
+          // all pages of the chapter
+          const pages = await pagesOfTheChapter(chapter.id);
+          
+          totalPages += pages.length;
+          const completedPagesOfTheChapter = pages.filter(page => completed.includes(page.id));
+          completedPages += completedPagesOfTheChapter.length;
+        }
+
+        course['progress'] = Math.round((completedPages/totalPages)*100);
+      }
+    }
+
+
+
     const availableCourses = courses.filter(course => !coursesEnrolledByUser.includes(course.courseId));
 
     res.status(200).json(
       new ApiResponse(
         200,
-        { courses, coursesEnrolledByUser }
+        { availableCourses, enrolledCourses }
       )
     );
   } catch (error) {
@@ -97,32 +160,51 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
   }
 });
 
-const getCourseDetails = asyncHandler(async (req, res) => {
+const getCourse = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
   try {
-    const course = await Courses.findByPk(courseId);
-    const enrolled = await Enrollments.findOne({
+    const chapters = await chaptersOfTheCourse(courseId);
+    const enrollementStatus = await Enrollments.find({
       where: {
-        studentId: req.user.id,
-        courseId
+        courseId,
+        studentId : req.user.id
       }
     });
+    const isEnrolled = (enrollementStatus.length > 0);
+    if(isEnrolled){
+      let completed = await Completeds.findAll({
+        where: {
+          studentId: req.user.id
+        }
+      });
 
-    const isEnrolled = !!(enrolled);
-    res
-      .status(200)
+      completed = completed.map(item => item.pageId);
+      for(let chapter of chapters){
+        const pages = await pagesOfTheChapter(chapter.id);
+        const completedPages = await pages.filter(page => completed.includes(page.id));
+        chapter[`progress`] = Math.round((completedPages.length/pages.length) * 100);
+      }
+    }
+    const course = await Courses.findByPk(courseId);
+
+    return res.status(200)
       .json(
         new ApiResponse(
           200,
-          { course, isEnrolled },
-          `course retrived successfully!`
+          {
+            course,
+            isEnrolled,
+            chapters
+          },
+          `course details retrived successfully!`
         )
       );
-  } catch (error) {
 
+  } catch (error) {
+    throw new ApiError(500, "failed to retirve the course");
   }
-});
-module.exports = { createACourse, updateACourse, deleteACourse };
+})
+module.exports = { createACourse, updateACourse, deleteACourse, viewAvailableAndEnrolledCourses, getCourse };
 
 /*
 ------- response of findAll() -----------
