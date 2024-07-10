@@ -3,35 +3,35 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Enrollments extends Model {
+  class Completeds extends Model {
     
     static associate(models) {
       // define association here
-      Enrollments.belongsTo(models.Users, {
+      Completeds.belongsTo(models.Users, {
         foreignKey: "studentId",
       })
-      Enrollments.belongsTo(models.Courses, {
-        foreignKey: "courseId",
+      Completeds.belongsTo(models.Pages, {
+        foreignKey: "pageId",
       })
     }
 
-    static async enrollInACourse(studentId, courseId){
+    static async markAsCompleted(studentId, pageId){
       return await this.findOrCreate(
         {
           where: {
             studentId, 
-            courseId
+            pageId
           }
         }
       );
     }
   }
-  Enrollments.init({
+  Completeds.init({
     studentId: DataTypes.INTEGER,
-    courseId: DataTypes.INTEGER
+    pageId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Enrollments',
+    modelName: 'Completeds',
   });
-  return Enrollments;
+  return Completeds;
 };

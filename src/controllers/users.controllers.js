@@ -33,7 +33,7 @@ const signUpUser = asyncHandler(async (req, res) => {
    */
 
   const { email, password, role } = req.body;
-  console.log(`email: ${email}\npassword: ${password}`);
+  // console.log(`email: ${email}\npassword: ${password}`);
   if ([email, password].some((field) => field?.trim() === ``)) {
     throw new ApiError(400, `All fields are required.`);
   }

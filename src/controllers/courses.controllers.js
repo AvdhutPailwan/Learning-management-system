@@ -1,5 +1,5 @@
 const { where } = require("sequelize");
-const { Courses, Enrollments, Chapters } = require(`../../models`);
+const { Courses, Enrollments, Chapters, Completeds, Pages } = require(`../../models`);
 const { ApiError } = require(`../utils/ApiError`);
 const { ApiResponse } = require(`../utils/ApiResponse`);
 const { asyncHandler } = require(`../utils/asyncHandler`);
@@ -121,6 +121,9 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
       let completed = await Completeds.findAll({
         where: {
           studentId: req.user.id
+        },
+        attributes:{
+          exclude: ["id"]
         }
       });
 
@@ -140,14 +143,13 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
           const completedPagesOfTheChapter = pages.filter(page => completed.includes(page.id));
           completedPages += completedPagesOfTheChapter.length;
         }
-
-        course['progress'] = Math.round((completedPages/totalPages)*100);
+        element["dataValues"]['progress'] = Math.round((completedPages/totalPages)*100);
       }
     }
 
 
 
-    const availableCourses = courses.filter(course => !coursesEnrolledByUser.includes(course.courseId));
+    const availableCourses = courses.filter(course => !coursesEnrolledByUser.includes(course.id));
 
     res.status(200).json(
       new ApiResponse(
@@ -156,6 +158,7 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
       )
     );
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, `Something went wrong while fetching the courses`);
   }
 });
@@ -164,7 +167,7 @@ const getCourse = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
   try {
     const chapters = await chaptersOfTheCourse(courseId);
-    const enrollementStatus = await Enrollments.find({
+    const enrollementStatus = await Enrollments.findAll({
       where: {
         courseId,
         studentId : req.user.id
@@ -175,6 +178,9 @@ const getCourse = asyncHandler(async (req, res) => {
       let completed = await Completeds.findAll({
         where: {
           studentId: req.user.id
+        },
+        attributes:{
+          exclude: ["id"]
         }
       });
 
@@ -182,7 +188,7 @@ const getCourse = asyncHandler(async (req, res) => {
       for(let chapter of chapters){
         const pages = await pagesOfTheChapter(chapter.id);
         const completedPages = await pages.filter(page => completed.includes(page.id));
-        chapter[`progress`] = Math.round((completedPages.length/pages.length) * 100);
+        chapter[`dataValues`][`progress`] = Math.round((completedPages.length/pages.length) * 100);
       }
     }
     const course = await Courses.findByPk(courseId);
@@ -201,6 +207,7 @@ const getCourse = asyncHandler(async (req, res) => {
       );
 
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, "failed to retirve the course");
   }
 })

@@ -1,4 +1,5 @@
-const { Pages, Chapters, Courses } = require(`../../models`);
+const { where } = require("sequelize");
+const { Pages, Chapters, Courses, Enrollments, Completeds } = require(`../../models`);
 const { ApiError } = require(`../utils/ApiError`);
 const { ApiResponse } = require(`../utils/ApiResponse`);
 const { asyncHandler } = require(`../utils/asyncHandler`);
@@ -57,4 +58,47 @@ const deleteAPage = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createAPage, updateAPage, deleteAPage };
+const getAPage = asyncHandler(async (req,res) => {
+  const { pageId } = req.params;
+  try {
+
+    const page = await Pages.findByPk(pageId);
+    const chapter = await Chapters.findByPk(page.chapterId);
+    const course = await Courses.findByPk(chapter.courseId);
+    const enrollementStatus = await Enrollments.findAll({
+      where: {
+        courseId: course.id,
+        studentId : req.user.id
+      }
+    });
+    const isEnrolled = (enrollementStatus.length > 0);
+
+    if(!isEnrolled && course.educatorId !== req.user.id) {
+      throw new ApiError(401, `Unauthorized Request`);
+    }
+
+    let completed = await Completeds.findAll({
+      where: {
+        studentId: req.user.id,
+        pageId: page.id
+      },
+      attributes: {
+        exclude: [`id`]
+      }
+    });
+
+    completed = completed.map(item => item.pageId);
+    page['dataValues']["completed"] = completed.includes(page.id);
+
+    return res.status(200)
+      .json(new ApiResponse(
+        200,
+        page,
+      ));
+
+  } catch (error) {
+    throw new ApiError(500, `Error while fetching page`);
+  }
+})
+
+module.exports = { createAPage, updateAPage, deleteAPage, getAPage };

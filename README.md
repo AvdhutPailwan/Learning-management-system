@@ -37,16 +37,16 @@
 
 ### Authorised everyone
 
-- [ ] view courses
-  - [ ] enrolled
-  - [ ] available
-- [ ] view chapters
-  - [ ] locked
-  - [ ] unlocked
-- [ ] view pages
-- [ ] mark as completed a page
-- [ ] course progress
-- [ ] enroll in a course
+- [x] view courses
+  - [x] enrolled
+  - [x] available
+- [x] view chapters
+  - [x] locked
+  - [x] unlocked
+- [x] view pages
+- [x] mark as completed a page
+- [x] course progress
+- [x] enroll in a course
 - [x] change password
 
 ### Optional features
