@@ -14,7 +14,7 @@ const createAChapter = async (req, res) => {
       `Chapter created successfully`
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during Creation of Chapter!`);
   }
 };
@@ -30,7 +30,7 @@ const updateAChapter = async (req, res) => {
       ((updated[0] === 1) ? `successfully updated the chapter` : `failed to update the chapter`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during updation of Chapter!`);
   }
 };
@@ -52,7 +52,7 @@ const deleteAChapter = async (req, res) => {
       ((deleted === 1) ? `successfully deleted the Chapter` : `failed to delete the Chapter`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during deletion of Chapter!`);
   }
 };
@@ -104,7 +104,7 @@ const getAChapter = asyncHandler(async (req, res) => {
       )
     );
   } catch (error) {
-    console.log(error);
+    
     throw new ApiError(500, `Error occured while fetching the details of the chapter`);
   }
 });

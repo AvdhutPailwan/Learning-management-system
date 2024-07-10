@@ -45,7 +45,7 @@ const createACourse = asyncHandler(async (req, res) => {
       `Course created successfully`
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during creation of course!`);
   }
 });
@@ -67,7 +67,7 @@ const updateACourse = asyncHandler(async (req, res) => {
       ((updated[0] === 1) ? `successfully updated the course` : `failed to update the course`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during updation of course!`);
   }
 });
@@ -88,7 +88,7 @@ const deleteACourse = asyncHandler(async (req, res) => {
       ((deleted === 1) ? `successfully deleted the course` : `failed to delete the course`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during deletion of course!`);
   }
 });
@@ -158,7 +158,7 @@ const viewAvailableAndEnrolledCourses = asyncHandler(async (req, res) => {
       )
     );
   } catch (error) {
-    console.log(error);
+    
     throw new ApiError(500, `Something went wrong while fetching the courses`);
   }
 });
@@ -207,7 +207,7 @@ const getCourse = asyncHandler(async (req, res) => {
       );
 
   } catch (error) {
-    console.log(error);
+    
     throw new ApiError(500, "failed to retirve the course");
   }
 })

@@ -14,7 +14,7 @@ const createAPage = asyncHandler(async (req, res) => {
       `Page created successfully`
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during creation of Page!`);
   }
 });
@@ -30,7 +30,7 @@ const updateAPage = asyncHandler(async (req, res) => {
       ((updated[0] === 1) ? `successfully updated the Page` : `failed to update the Page`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during updation of page!`);
   }
 });
@@ -53,7 +53,7 @@ const deleteAPage = asyncHandler(async (req, res) => {
       ((deleted === 1) ? `successfully deleted the page` : `failed to delete the page`)
     ));
   } catch (error) {
-    console.error(error);
+    
     throw new ApiError(500, `Error occured during deletion of Page!`);
   }
 });
