@@ -53,3 +53,10 @@
 
 - [ ] search functionality
 - [ ] quizzes at the end of the chapters
+
+## Security
+
+- [x] Snyk tool for development and identification of vulnerabilities
+- [x] SQL Injection
+- [x] Information Exposure (X-Powered-By header)
+- [x] CSRF (Cross site request forgery)

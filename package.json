@@ -18,11 +18,10 @@
   },
   "keywords": [
     "javascript",
-    "ejs",
     "edu",
     "tech",
     "postgresql",
-    "fullstack"
+    "backend"
   ],
   "author": "Avdhut Pailwan <avdhutpailwan@gmail.com>",
   "license": "ISC",
@@ -53,6 +52,7 @@
     "path": "^0.12.7",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "tiny-csrf": "^1.1.4"
   }
 }

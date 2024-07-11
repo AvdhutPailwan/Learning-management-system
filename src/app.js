@@ -1,10 +1,7 @@
 const express = require(`express`);
 const cookieParser = require(`cookie-parser`);
 const helmet = require(`helmet`);
-
-/**
- * Todo: add a csrf security
- */
+const csrf = require(`tiny-csrf`);
 
 // router import
 const userRouter = require(`./routes/users.routes`);
@@ -20,10 +17,15 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIEPARSER_SECRET));
+app.use(csrf(process.env.CSURF_SECRET, ["POST", "PUT", "DELETE"]));
+app.use((req, res, next) =>  {
+  res.appendHeader("csrfToken", req.csrfToken());
+  next();
+})
 
 app.get(`/`, (req, res) => {
-  res.json({ message: `Hello User!!!` });
+  return res.json({ message: `This is learning management system!!!`});
 });
 
 app.use(`/user`, userRouter);
