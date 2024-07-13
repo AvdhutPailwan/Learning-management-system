@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const { Pages, Chapters, Courses, Enrollments, Completeds } = require(`../../models`);
 const { ApiError } = require(`../utils/ApiError`);
 const { ApiResponse } = require(`../utils/ApiResponse`);
